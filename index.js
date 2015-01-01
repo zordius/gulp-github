@@ -2,6 +2,7 @@
 
 var through = require('through2'),
     github = require('github'),
+    path = require('path'),
 
 getReporter = function (reporter) {
     if (typeof reporter === 'function') {
@@ -32,7 +33,7 @@ module.exports = function (options) {
     return through.obj(function (file, enc, callback) {
         if (file.jshint && !file.jshint.success && !file.jshint.ignored) {
             file.jshint.results.forEach(function (E) {
-                output.push(file.path + ': line ' + E.line + ', col ' + E.character + ' ' + E.reason);
+                output.push(path.relative(process.cwd(), E.file) + ': line ' + E.error.line + ', col ' + E.error.character + ' ' + E.error.reason);
             });
         }
         callback();
