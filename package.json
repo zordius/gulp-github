@@ -1,0 +1,44 @@
+{
+  "name": "gulp-github",
+  "version": "0.0.1",
+  "description": "A gulp plugin to pipe contents to github pull request comments.",
+  "author": "Zordius <zordius@yahoo-inc.com>",
+  "contributors": [
+    {
+      "name": "Zordius Chen",
+      "email": "zordius@gmail.com"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/zordius/gulp-github.git"
+  },
+  "keywords": [
+    "gulp",
+    "plugin",
+    "github",
+    "pull request",
+    "comment",
+    "code review"
+  ],
+  "scripts": {
+    "test": "mocha"
+  },
+  "main": "index.js",
+  "devDependencies": {
+    "gulp": "*",
+    "mocha": "*"
+  },
+  "engines": {
+    "node": ">=0.8"
+  },
+  "bugs": {
+    "url": "https://github.com/zordius/gulp-github/issues"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/zordius/gulp-github/blob/master/LICENSE.txt"
+    }
+  ]
+}

@@ -1,6 +1,7 @@
 gulp-github
 ===========
 
+A gulp plugin to pipe contents to github pull request comments.
 
 Installation
 ------------
