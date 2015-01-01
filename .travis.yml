@@ -2,6 +2,5 @@ language: node_js
 node_js:
   - '0.11'
 script:
-  - set
   - npm test
 sudo: false
