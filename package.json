@@ -22,16 +22,17 @@
     "code review"
   ],
   "scripts": {
-    "test": "mocha"
+    "test": "gulp"
   },
   "main": "index.js",
   "dependencies": {
     "github": "0.2.3",
-    "gulp-util": "3.0.1"
+    "gulp-util": "3.0.1",
+    "through2": "*"
   },
   "devDependencies": {
     "gulp": "3.8.10",
-    "mocha": "2.1.0"
+    "gulp-jshint": "1.9.0"
   },
   "engines": {
     "node": ">=0.8"

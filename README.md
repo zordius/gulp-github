@@ -14,7 +14,8 @@ Usage
 -----
 
 ```javascript
-var github = require('gulp-github');
+var gulp = require('gulp'),
+    github = require('gulp-github');
 
 gulp.task('link_report_github', function () {
     return gulp.src('lin/*.js')
