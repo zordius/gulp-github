@@ -25,9 +25,13 @@
     "test": "mocha"
   },
   "main": "index.js",
+  "dependencies": {
+    "github": "0.2.3",
+    "gulp-util": "3.0.1"
+  },
   "devDependencies": {
-    "gulp": "*",
-    "mocha": "*"
+    "gulp": "3.8.10",
+    "mocha": "2.1.0"
   },
   "engines": {
     "node": ">=0.8"
