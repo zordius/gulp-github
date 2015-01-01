@@ -4,3 +4,6 @@ node_js:
 script:
   - npm test
 sudo: false
+env:
+  global:
+#    - secure: "irtDgr1bIh/UUEgkd2yzZQExGTFhIHF83TdY+qCMAwq/TpX3pRGRRkZjMWm4QjuLy7HbjjRDjVfq3Nmm5Y3GlX35ANeBy9uKBhCF5wMpg6EP5l5gPsIOEWoPUK41psK04KuXM4GYrp8ykq3WTG6JmSMrcF+802B3zczNpwx3qgE="
