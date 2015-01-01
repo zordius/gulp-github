@@ -37,10 +37,16 @@ Options
 
 ```javascript
 {
+    // Provide your own jshint reporter
     reporter: function (E) {
-        return 'Error in ' + E.file + '!';   // refer to http://jshint.com/docs/reporters/ for E structure.
+        // refer to http://jshint.com/docs/reporters/ for E structure.
+        return 'Error in ' + E.file + '!';
     },
-    git_token: 'the_oauth_token',            // refer to https://help.github.com/articles/creating-an-access-token-for-command-line-use/
+
+    // refer to https://help.github.com/articles/creating-an-access-token-for-command-line-use/
+    git_token: 'the_oauth_token',
+
+    // comment into this repo, this pr.
     git_repo: 'zordius/test',
     git_prid: '1'
 }
