@@ -4,36 +4,18 @@ var through = require('through2'),
     github = require('github'),
     path = require('path'),
 
-getReporter = function (reporter) {
-    if (typeof reporter === 'function') {
-        return reporter;
-    }
-
-    if (typeof reporter !== 'string') {
-        reporter = 'default';
-    }
-
-    try {
-        return require('jshint/src/reports/' + reporter);
-    } catch (E) {
-        // do nothing
-    }
-
-    try {
-        return require(reporter);
-    } catch (E) {
-        // do nothing
-    }
+simple_reporter = function (E) {
+    return path.relative(process.cwd(), E.file) + ': line ' + E.error.line + ', col ' + E.error.character + ' ' + E.error.reason;
 };
 
 module.exports = function (options) {
     var output = [],
-        reporter = getReporter(options.reporter);
+        reporter = options.reporter || simple_reporter;
 
     return through.obj(function (file, enc, callback) {
         if (file.jshint && !file.jshint.success && !file.jshint.ignored) {
             file.jshint.results.forEach(function (E) {
-                output.push(path.relative(process.cwd(), E.file) + ': line ' + E.error.line + ', col ' + E.error.character + ' ' + E.error.reason);
+                output.push(reporter(E));
             });
         }
         callback();
