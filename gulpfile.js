@@ -7,7 +7,7 @@ gulp.task('default', function () {
     .pipe(jshint())
     .pipe(github({
         git_token: process.env.GHTK,
-        git_repo: 'zordius/gulp-github',
-        git_prid: process.env.prid
+        git_repo: process.env.TRAVIS_REPO_SLUG,
+        git_prid: process.env.TRAVIS_PULL_REQUEST
     }));
 });
