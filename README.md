@@ -3,6 +3,14 @@ gulp-github
 
 A gulp plugin to pipe contents to github pull request comments.
 
+Features
+--------
+
+* Write collected info then comment on a github pull request.
+* Collect <a href="https://github.com/spenceralger/gulp-jshint">gulp-jshint</a> results.
+* **TODO** Collect mocha results.
+* **TODO** Collect istanbul results.
+
 Installation
 ------------
 
