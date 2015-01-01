@@ -5,6 +5,5 @@ var gulp = require('gulp'),
 gulp.task('default', function () {
     return gulp.src('*.js')
     .pipe(jshint())
-    .pipe(github({
-    }));
+    .pipe(github());
 });
