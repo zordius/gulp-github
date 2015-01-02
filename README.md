@@ -52,3 +52,5 @@ Options
     }
 }
 ```
+
+Check this <a href="gulpfile.js">sample gulpfile</a> to see how to migrate this with travis CI.
