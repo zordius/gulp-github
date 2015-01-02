@@ -42,7 +42,7 @@ module.exports = function (options) {
                 user: opt.git_repo.split('/')[0],
                 repo: opt.git_repo.split('/')[1],
                 number: opt.git_prid,
-                body: output.join('\n');
+                body: output.join('\n'),
             });
         } else {
             console.log(output);
