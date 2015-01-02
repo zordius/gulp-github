@@ -3,6 +3,8 @@ gulp-github
 
 A gulp plugin to pipe contents to github pull request comments.
 
+[![npm version](https://img.shields.io/npm/v/gulp-github.svg)](https://www.npmjs.org/package/gul-github) [![Dependency Status](https://david-dm.org/zordius/gulp-github.svg)](https://david-dm.org/zordius/gulp-github) [![Build Status](https://travis-ci.org/zordius/gulp-github.svg?branch=master)](https://travis-ci.org/zordius/gulp-github)
+
 Features
 --------
 
