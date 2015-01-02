@@ -27,7 +27,7 @@ module.exports = function (options) {
             headers: {
                 'user-agent': 'gulp-github'
             }
-        })
+        });
 
         if (output.length == 1) {
             return cb();
