@@ -41,7 +41,7 @@ Options
 {
     // Required options: git_token, git_repo, git_prid
     // refer to https://help.github.com/articles/creating-an-access-token-for-command-line-use/
-    git_token: 'the_oauth_token',
+    git_token: 'your_github_oauth_token',
 
     // comment into this repo, this pr.
     git_repo: 'zordius/test',

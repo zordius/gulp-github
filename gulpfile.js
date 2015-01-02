@@ -6,6 +6,9 @@ gulp.task('default', function () {
     return gulp.src('*.js')
     .pipe(jshint())
     .pipe(github({
+        // Read http://docs.travis-ci.com/user/encryption-keys/
+        // travis encrypt GHTK=your_github_access_token
+        // Then save into your .travis.yml
         git_token: process.env.GHTK,
         git_repo: process.env.TRAVIS_REPO_SLUG,
         git_prid: process.env.TRAVIS_PULL_REQUEST
