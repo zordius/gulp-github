@@ -47,7 +47,7 @@ module.exports = function (options) {
         } else {
             console.log('Not a pullrequest or no opts.git_token/opts.git_repo/opts.git_prid');
             console.log('These jshint issues will not update to github:');
-            console.log(output.join('\n');
+            console.log(output.join('\n'));
             console.log('Please read gulp-github document: https://github.com/zordius/gulp-github');
         }
 
