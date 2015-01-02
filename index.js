@@ -1,6 +1,7 @@
 'use strict';
 
 var through = require('through2'),
+    gutil = require('gulp-util'),
     github = require('github'),
     path = require('path'),
 
@@ -44,6 +45,8 @@ module.exports = function (options) {
                 number: opt.git_prid,
                 body: output.join('\n'),
             });
+
+            gutil.log('[gulp-github]', gutil.colors.bold((output.length - 1) + ' jshint issues are updated to https://github.com/' + opt.git_repo + '/pull/' + opt.git_prid));
         } else {
             console.log('Not a pullrequest or no opts.git_token/opts.git_repo/opts.git_prid');
             console.log('These jshint issues will not update to github:');
