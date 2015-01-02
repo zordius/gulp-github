@@ -6,7 +6,7 @@ var through = require('through2'),
     path = require('path'),
 
 simple_reporter = function (E) {
-    return ' 1. ' + path.relative(process.cwd(), E.file) + ': line ' + E.error.line + ', col ' + E.error.character + ' ' + E.error.reason;
+    return ' 1. ' + path.relative(process.cwd(), E.file) + ': line ' + E.error.line + ', col ' + E.error.character + ' *' + E.error.reason + '*';
 };
 
 module.exports = function (options) {
@@ -20,6 +20,7 @@ module.exports = function (options) {
                 output.push(reporter(E));
             });
         }
+        this.push(file);
         callback();
     }, function (cb) {
         var GIT = new github(opt.git_option || {
@@ -46,7 +47,7 @@ module.exports = function (options) {
                 body: output.join('\n'),
             });
 
-            gutil.log('[gulp-github]', gutil.colors.bold((output.length - 1) + ' jshint issues were updated to https://' + ((opt.git_option && opt.git_option.host) ? opt.git_option.host : github.com) + '/' + opt.git_repo + '/pull/' + opt.git_prid));
+            gutil.log('[gulp-github]', gutil.colors.bold((output.length - 1) + ' jshint issues were updated to https://' + ((opt.git_option && opt.git_option.host) ? opt.git_option.host : 'github.com') + '/' + opt.git_repo + '/pull/' + opt.git_prid));
         } else {
             console.log('Not a pullrequest or no opts.git_token/opts.git_repo/opts.git_prid');
             console.log('These jshint issues will not update to github:');
