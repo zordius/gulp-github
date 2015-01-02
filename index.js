@@ -9,7 +9,7 @@ simple_reporter = function (E) {
 };
 
 module.exports = function (options) {
-    var output = [],
+    var output = ['**Please fix these jshint issues first**'],
         opt = options || {},
         reporter = opt.reporter || simple_reporter;
 
@@ -21,7 +21,33 @@ module.exports = function (options) {
         }
         callback();
     }, function (cb) {
-        console.log(output);
+        var GIT = new github({
+            version: '3.0.0',
+            headers: {
+                'user-agent': 'gulp-github'
+            }
+        })
+
+        if (output.length == 1) {
+            return cb();
+        }
+
+        if (opt.git_token && opt.git_repo && opt.git_prid) {
+            GIT.authenticate({
+                type: 'oauth',
+                token: opt.git_token
+            });
+
+            GIT.issues.createComment({
+                user: opt.git_repo.split('/')[0],
+                repo: opt.git_repo.split('/')[1],
+                number: opt.git_prid,
+                body: output.join('\n');
+            });
+        } else {
+            console.log(output);
+        }
+
         cb();
     });
 };
