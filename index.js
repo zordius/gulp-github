@@ -6,7 +6,7 @@ var through = require('through2'),
     path = require('path'),
 
 simple_reporter = function (E) {
-    return ' * ' + path.relative(process.cwd(), E.file) + ': line ' + E.error.line + ', col ' + E.error.character + ' ' + E.error.reason;
+    return ' 1. ' + path.relative(process.cwd(), E.file) + ': line ' + E.error.line + ', col ' + E.error.character + ' ' + E.error.reason;
 };
 
 module.exports = function (options) {
