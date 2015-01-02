@@ -28,7 +28,7 @@ var gulp = require('gulp'),
     github = require('gulp-github');
 
 gulp.task('link_report_github', function () {
-    return gulp.src('lin/*.js')
+    return gulp.src('lib/*.js')
     .pipe(jshint())
     .pipe(github(options));
 });
