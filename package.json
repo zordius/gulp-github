@@ -1,6 +1,6 @@
 {
   "name": "gulp-github",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "A gulp plugin to pipe contents to github pull request comments.",
   "author": "Zordius <zordius@yahoo-inc.com>",
   "contributors": [
