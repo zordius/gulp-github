@@ -22,7 +22,7 @@ module.exports = function (options) {
         }
         callback();
     }, function (cb) {
-        var GIT = new github({
+        var GIT = new github(opt.git_option || {
             version: '3.0.0',
             headers: {
                 'user-agent': 'gulp-github'
