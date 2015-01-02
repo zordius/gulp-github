@@ -5,11 +5,11 @@ var through = require('through2'),
     path = require('path'),
 
 simple_reporter = function (E) {
-    return path.relative(process.cwd(), E.file) + ': line ' + E.error.line + ', col ' + E.error.character + ' ' + E.error.reason;
+    return path.relative(' * ' + process.cwd(), E.file) + ': line ' + E.error.line + ', col ' + E.error.character + ' ' + E.error.reason;
 };
 
 module.exports = function (options) {
-    var output = ['**Please fix these jshint issues first**'],
+    var output = ['**Please fix these jshint issues first:**'],
         opt = options || {},
         reporter = opt.reporter || simple_reporter;
 
