@@ -32,6 +32,9 @@ gulp.task('link_report_github', function () {
     .pipe(jshint())
     .pipe(github(options));
 });
+
+// Or, direct output your comment with same options
+github.commentToGithub('Yes! it works!!', options);
 ```
 
 Options
