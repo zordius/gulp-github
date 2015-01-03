@@ -50,9 +50,10 @@ Options
     git_repo: 'zordius/test',
     git_prid: '1',
 
-    // when ussing github enterprise, optional
+    // when using github enterprise, optional
     git_option: {
         // refer to https://www.npmjs.com/package/github
+        host: 'github.mycorp.com'
     }
 
     // Provide your own jshint reporter, optional
