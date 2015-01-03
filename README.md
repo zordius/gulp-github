@@ -10,8 +10,8 @@ Features
 
 * Write collected info then comment on a github pull request.
 * Collect <a href="https://github.com/spenceralger/gulp-jshint">gulp-jshint</a> results.
-* **TODO** Collect mocha results.
-* **TODO** Collect istanbul results.
+* **TODO** Collect jscs results.
+* **TODO** Collect icov result.
 
 Installation
 ------------
