@@ -5,8 +5,12 @@ var through = require('through2'),
     github = require('github'),
     path = require('path'),
 
-simple_reporter = function (E) {
+jshint_simple_reporter = function (E) {
     return ' 1. ' + path.relative(process.cwd(), E.file) + ': line ' + E.error.line + ', col ' + E.error.character + ' *' + E.error.reason + '*';
+},
+
+jscs_simple_reporter = function (E) {
+    return ' 1. ' + E.filename + ': line ' + E.line + ', col ' + E.column + '*' + E.message + '*';
 },
 
 commentToGithub = function (body, opt) {
@@ -31,15 +35,24 @@ commentToGithub = function (body, opt) {
 
 module.exports = function (options) {
     var jshint_output = ['**Please fix these jshint issues first:**'],
+        jscs_output = ['Please fix these jscs issues first:**'],
         opt = options || {},
-        reporter = opt.reporter || simple_reporter;
+        jshint_reporter = opt.jshint_reporter || jshint_simple_reporter,
+        jscs_reporter = opt.jscs_reporter || jscs_simple_reporter;
 
     return through.obj(function (file, enc, callback) {
         if (file.jshint && !file.jshint.success && !file.jshint.ignored) {
             file.jshint.results.forEach(function (E) {
-                jshint_output.push(reporter(E));
+                jshint_output.push(jshint_reporter(E));
             });
         }
+
+        if (file.jscs && !file.jscs.success) {
+            file.jscs.errors.forEach(function (E) {
+                jscs_output.push(jscs_reporter(E));
+            });
+        }
+
         this.push(file);
         callback();
     }, function (cb) {
