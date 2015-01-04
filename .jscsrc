@@ -8,8 +8,6 @@
     "disallowTrailingComma": true,
 
     "requireBlocksOnNewline": true,
-    "requireCamelCaseOrUpperCaseIdentifiers": "ignoreProperties",
-    "requireCapitalizedConstructors": true,
     "requireCommaBeforeLineBreak": true,
     "requireSpaceAfterKeywords":  [
         "if",

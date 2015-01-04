@@ -7,9 +7,8 @@ gulp.task('default', function () {
     return gulp.src('*.js')
     .pipe(jshint())
     .pipe(jscs())
-    .on('error', function (E) {
-        // skip messages, handle error
-        // console.log(E.message);
+    .on('error', function () {
+        // handle error, skip gulp-jscs messages
     })
     .pipe(github({
         // Read http://docs.travis-ci.com/user/encryption-keys/
