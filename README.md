@@ -10,8 +10,8 @@ Features
 
 * Write collected info then comment on a github pull request.
 * Collect <a href="https://github.com/spenceralger/gulp-jshint">gulp-jshint</a> results.
-* **TODO** Collect jscs results.
-* **TODO** Collect icov result.
+* Collect <a href="https://github.com/jscs-dev/gulp-jscs">gulp-jscs</a> results.
+* **TODO** Collect lcov result.
 
 Installation
 ------------
@@ -54,12 +54,18 @@ Options
     git_option: {
         // refer to https://www.npmjs.com/package/github
         host: 'github.mycorp.com'
-    }
+    },
 
     // Provide your own jshint reporter, optional
-    reporter: function (E) {
+    jshint_reporter: function (E) {
         // refer to http://jshint.com/docs/reporters/ for E structure.
         return 'Error in ' + E.file + '!';
+    },
+
+    // Provide your own jscs reporter, optional
+    jscs_reporter: function (E) {
+        // refer to https://github.com/jscs-dev/node-jscs/wiki/Error-Filters for E structure.
+        return 'Error in ' + E.filename + '!';
     }
 }
 ```
