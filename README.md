@@ -25,11 +25,16 @@ Usage
 
 ```javascript
 var gulp = require('gulp'),
+    jshint = require('gulp-jshint'),
+    jscs = require('gulp-jscs'),
     github = require('gulp-github');
 
 gulp.task('link_report_github', function () {
     return gulp.src('lib/*.js')
     .pipe(jshint())
+    .pipe(jscs()).on('error', function (E) {
+        console.log(E.message); // This handled jscs stream error
+    })
     .pipe(github(options));
 });
 
