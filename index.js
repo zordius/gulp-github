@@ -56,18 +56,32 @@ module.exports = function (options) {
         this.push(file);
         callback();
     }, function (cb) {
+        var pr_url;
 
-        if (jshint_output.length == 1) {
+        if ((jshint_output.length === 1) && (jscs_output.length === 1)) {
             return cb();
         }
 
         if (opt.git_token && opt.git_repo && opt.git_prid) {
-            commentToGithub(jshint_output.join('\n'), opt);
-            gutil.log('[gulp-github]', gutil.colors.bold((jshint_output.length - 1) + ' jshint issues were updated to https://' + ((opt.git_option && opt.git_option.host) ? opt.git_option.host : 'github.com') + '/' + opt.git_repo + '/pull/' + opt.git_prid));
+            pr_url = 'https://' + ((opt.git_option && opt.git_option.host) ? opt.git_option.host : 'github.com') + '/' + opt.git_repo + '/pull/' + opt.git_prid;
+            if (jshint_output.length > 1) {
+                commentToGithub(jshint_output.join('\n'), opt);
+                gutil.log('[gulp-github]', gutil.colors.bold((jshint_output.length - 1) + ' jshint issues were updated to ' + pr_url));
+            }
+            if (jscs_output.length > 1) {
+                commentToGithub(jscs_output.join('\n'), opt);
+                gutil.log('[gulp-github]', gutil.colors.bold((jscs_output.length - 1) + ' jscs issues were updated to ' + pr_url));
+            }
         } else {
             console.log('Not a pullrequest or no opts.git_token/opts.git_repo/opts.git_prid');
-            console.log('These jshint issues will not update to github:');
-            console.log(jshint_output.join('\n'));
+            if (jshint_output.length > 1) {
+                console.log('These jshint issues will not update to github:');
+                console.log(jshint_output.join('\n'));
+            }
+            if (jscs_output.length > 1) {
+                console.log('These jscs issues will not update to github:');
+                console.log(jscs_output.join('\n'));
+            }
             console.log('Please read gulp-github document: https://github.com/zordius/gulp-github');
         }
 
