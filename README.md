@@ -35,7 +35,7 @@ gulp.task('link_report_github', function () {
     .pipe(jscs()).on('error', function (E) {
         console.log(E.message); // This handled jscs stream error
     })
-    .pipe(github(options));
+    .pipe(github(options)); // comment issues in github PR!
 });
 
 // Or, direct output your comment with same options
