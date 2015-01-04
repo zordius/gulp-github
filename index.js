@@ -9,8 +9,8 @@ jshint_simple_reporter = function (E) {
     return ' 1. ' + path.relative(process.cwd(), E.file) + ': line ' + E.error.line + ', col ' + E.error.character + ' *' + E.error.reason + '*';
 },
 
-jscs_simple_reporter = function (E) {
-    return ' 1. ' + E.filename + ': line ' + E.line + ', col ' + E.column + ' *' + E.message + '*';
+jscs_simple_reporter = function (E, file) {
+    return ' 1. ' + path.relative(process.cwd(), file.path) + ': line ' + E.line + ', col ' + E.column + ' *' + E.message + '*';
 },
 
 commentToGithub = function (body, opt) {
@@ -43,13 +43,13 @@ module.exports = function (options) {
     return through.obj(function (file, enc, callback) {
         if (file.jshint && !file.jshint.success && !file.jshint.ignored) {
             file.jshint.results.forEach(function (E) {
-                jshint_output.push(jshint_reporter(E));
+                jshint_output.push(jshint_reporter(E, file));
             });
         }
 
         if (file.jscs && !file.jscs.success) {
             file.jscs.errors.forEach(function (E) {
-                jscs_output.push(jscs_reporter(E));
+                jscs_output.push(jscs_reporter(E, file));
             });
         }
 
