@@ -10,7 +10,7 @@ jshint_simple_reporter = function (E) {
 },
 
 jscs_simple_reporter = function (E) {
-    return ' 1. ' + E.filename + ': line ' + E.line + ', col ' + E.column + '*' + E.message + '*';
+    return ' 1. ' + E.filename + ': line ' + E.line + ', col ' + E.column + ' *' + E.message + '*';
 },
 
 commentToGithub = function (body, opt) {
@@ -35,7 +35,7 @@ commentToGithub = function (body, opt) {
 
 module.exports = function (options) {
     var jshint_output = ['**Please fix these jshint issues first:**'],
-        jscs_output = ['Please fix these jscs issues first:**'],
+        jscs_output = ['**Please fix these jscs issues first:**'],
         opt = options || {},
         jshint_reporter = opt.jshint_reporter || jshint_simple_reporter,
         jscs_reporter = opt.jscs_reporter || jscs_simple_reporter;
