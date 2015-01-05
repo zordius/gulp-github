@@ -73,7 +73,7 @@ module.exports = function (options) {
         var pr_url;
 
         if ((jshint_output.length === 1) && (jscs_output.length === 1)) {
-            return cb()
+            return cb();
         }
 
         if (opt.git_token && opt.git_repo && opt.git_prid && (opt.git_prid !== 'false')) {
