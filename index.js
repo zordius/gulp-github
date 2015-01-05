@@ -45,6 +45,42 @@ createStatusToCommit = function (state, opt) {
         description: state.description,
         context: state.context
     });
+},
+
+failThisTask = function () {
+    var jshint_fails = 0,
+        jscs_fails = 0;
+
+    return through.obj(function (file, enc, callback) {
+        if (file.jshint && !file.jshint.success && !file.jshint.ignored) {
+            jshint_fails += file.jshint.results.length;
+        }
+
+        if (file.jscs && !file.jscs.success) {
+            jscs_fails += file.jscs.errors.length;
+        }
+        this.push(file);
+        callback();
+    }, function (cb) {
+        var message = [];
+
+        if (jshint_fails) {
+            message.push('found ' + jshint_fails + ' jshint issues');
+        }
+
+        if (jscs_fails) {
+            message.push('found ' + jscs_fails + ' jscs issues');
+        }
+
+        if (message.length) {
+            this.emit('error', new gutil.PluginError('gulp-github', {
+                message: 'Failed: ' + message.join(', ') + '.',
+                showStack: false
+            }));
+        }
+
+        cb();
+    });
 };
 
 module.exports = function (options) {
@@ -127,3 +163,4 @@ module.exports = function (options) {
 
 module.exports.commentToPR = commentToPR;
 module.exports.createStatusToCommit = createStatusToCommit;
+module.exports.failThisTask = failThisTask;

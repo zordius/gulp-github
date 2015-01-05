@@ -22,5 +22,5 @@ gulp.task('default', function () {
         jshint_status: 'error', // Set status to error when jshint errors
         jscs_status: 'failure'  // Set status to failure when jscs errors
     }))
-    .pipe(jshint.reporter('fail'));
+    .pipe(github.failThisTask());
 });
