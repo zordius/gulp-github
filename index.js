@@ -126,3 +126,4 @@ module.exports = function (options) {
 };
 
 module.exports.commentToPR = commentToPR;
+module.exports.createStatusToCommit = createStatusToCommit;
