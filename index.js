@@ -40,7 +40,7 @@ createStatusToCommit = function (state, opt) {
     getGIT(opt).statuses.create({
         user: opt.git_repo.split('/')[0],
         repo: opt.git_repo.split('/')[1],
-        sha: opt.sha,
+        sha: opt.git_sha,
         state: state.state,
         description: state.description,
         context: state.context
