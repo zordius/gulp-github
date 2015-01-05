@@ -108,7 +108,9 @@ module.exports = function (options) {
                         context: 'gulp-github/jshint'
                     }, opt);
                 }
+            }
 
+            if (jscs_output.length > 1) {
                 if (opt.jscs_status) {
                     createStatusToCommit({
                         state: opt.jscs_status,
