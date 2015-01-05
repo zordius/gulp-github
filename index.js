@@ -106,7 +106,7 @@ module.exports = function (options) {
                         state: opt.jshint_status,
                         description: (jshint_output.length - 1) + ' jshint issues found',
                         context: 'gulp-github/jshint'
-                    });
+                    }, opt);
                 }
 
                 if (opt.jscs_status) {
@@ -114,7 +114,7 @@ module.exports = function (options) {
                         state: opt.jscs_status,
                         description: (jscs_output.length - 1) + ' jscs issues found',
                         context: 'gulp-github/jscs'
-                    });
+                    }, opt);
                 }
             }
         }
