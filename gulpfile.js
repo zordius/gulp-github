@@ -20,7 +20,7 @@ gulp.task('default', function () {
         git_sha: process.env.TRAVIS_COMMIT,
 
         jshint_status: 'error',
-        jscs_status: 'failure',
+        jscs_status: 'failure'
     }))
     .pipe(jshint.reporter('fail'));
 });

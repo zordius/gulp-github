@@ -45,7 +45,7 @@ createStatusToCommit = function (state, opt) {
         description: state.description,
         context: state.context
     });
-}
+};
 
 module.exports = function (options) {
     var jshint_output = ['**Please fix these jshint issues first:**'],
