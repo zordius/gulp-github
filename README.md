@@ -34,9 +34,10 @@ gulp.task('link_report_github', function () {
     return gulp.src('lib/*.js')
     .pipe(jshint())
     .pipe(jscs()).on('error', function (E) {
-        console.log(E.message); // This handled jscs stream error
+        console.log(E.message);   // This handled jscs stream error.
     })
-    .pipe(github(options)); // comment issues in github PR!
+    .pipe(github(options));       // Comment issues in github PR!
+    .pipe(github.failThisTask()); // Fail this task when jscs/jshint issues found.
 });
 
 // Or, direct output your comment with same options
