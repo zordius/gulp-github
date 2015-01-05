@@ -76,7 +76,7 @@ module.exports = function (options) {
             return cb();
         }
 
-        if (opt.git_token && opt.git_repo && opt.git_prid) {
+        if (opt.git_token && opt.git_repo && opt.git_prid && (opt.git_prid !== 'false')) {
             pr_url = 'https://' + ((opt.git_option && opt.git_option.host) ? opt.git_option.host : 'github.com') + '/' + opt.git_repo + '/pull/' + opt.git_prid;
             if (jshint_output.length > 1) {
                 commentToPR(jshint_output.join('\n'), opt);
