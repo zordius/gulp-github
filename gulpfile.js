@@ -1,10 +1,15 @@
 var gulp = require('gulp'),
     jshint = require('gulp-jshint'),
+    jscs = require('gulp-jscs'),
     github = require('./index');
 
 gulp.task('default', function () {
     return gulp.src('*.js')
     .pipe(jshint())
+    .pipe(jscs())
+    .on('error', function () {
+        // handle error, skip gulp-jscs messages
+    })
     .pipe(github({
         // Read http://docs.travis-ci.com/user/encryption-keys/
         // travis encrypt GHTK=your_github_access_token

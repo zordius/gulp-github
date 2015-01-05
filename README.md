@@ -25,12 +25,17 @@ Usage
 
 ```javascript
 var gulp = require('gulp'),
+    jshint = require('gulp-jshint'),
+    jscs = require('gulp-jscs'),
     github = require('gulp-github');
 
 gulp.task('link_report_github', function () {
     return gulp.src('lib/*.js')
     .pipe(jshint())
-    .pipe(github(options));
+    .pipe(jscs()).on('error', function (E) {
+        console.log(E.message); // This handled jscs stream error
+    })
+    .pipe(github(options)); // comment issues in github PR!
 });
 
 // Or, direct output your comment with same options
@@ -57,13 +62,13 @@ Options
     },
 
     // Provide your own jshint reporter, optional
-    jshint_reporter: function (E) {
+    jshint_reporter: function (E, file) { // gulp stream file object
         // refer to http://jshint.com/docs/reporters/ for E structure.
         return 'Error in ' + E.file + '!';
     },
 
     // Provide your own jscs reporter, optional
-    jscs_reporter: function (E) {
+    jscs_reporter: function (E, file) { // gulp stream file object
         // refer to https://github.com/jscs-dev/node-jscs/wiki/Error-Filters for E structure.
         return 'Error in ' + E.filename + '!';
     }
