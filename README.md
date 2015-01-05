@@ -90,4 +90,4 @@ Options
 
 Check this <a href="gulpfile.js">sample gulpfile</a> to see how to migrate this with travis CI.
 
-Check <a href="https://github.com/zordius/gulp-github/pull/3">This PR</a> to see live demo. Click on ✘ symbol before d9bc05e to see created status.
+Check <a href="https://github.com/zordius/gulp-github/pull/3">This PR</a> to see live demo. Click on <span style="color:red">✘</span> symbol before d9bc05e to see created status.
