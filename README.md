@@ -47,13 +47,18 @@ Options
 
 ```javascript
 {
-    // Required options: git_token, git_repo, git_prid
+    // Required options: git_token, git_repo
     // refer to https://help.github.com/articles/creating-an-access-token-for-command-line-use/
     git_token: 'your_github_oauth_token',
 
     // comment into this repo, this pr.
     git_repo: 'zordius/test',
     git_prid: '1',
+
+    // create status to this commit, optional
+    git_sha: 00000000,
+    jshint_status: 'error',       // Set status to error when jshint errors
+    jscs_status: 'failure',       // Set status to failure when jscs errors
 
     // when using github enterprise, optional
     git_option: {

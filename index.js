@@ -13,7 +13,7 @@ jscs_simple_reporter = function (E, file) {
     return ' 1. ' + path.relative(process.cwd(), file.path) + ': line ' + E.line + ', col ' + E.column + ' *' + E.message + '*';
 },
 
-commentToPR = function (body, opt) {
+getGIT = function (opt) {
     var GIT = new github(opt.git_option || {
         version: '3.0.0',
         headers: {
@@ -24,14 +24,28 @@ commentToPR = function (body, opt) {
         type: 'oauth',
         token: opt.git_token
     });
+    return GIT;
+},
 
-    GIT.issues.createComment({
+commentToPR = function (body, opt) {
+    getGIT(opt).issues.createComment({
         user: opt.git_repo.split('/')[0],
         repo: opt.git_repo.split('/')[1],
         number: opt.git_prid,
         body: body
     });
-};
+},
+
+createStatusToCommit = function (state, opt) {
+    getGIT(opt).statuses.create({
+        user: opt.git_repo.split('/')[0],
+        repo: opt.git_repo.split('/')[1],
+        sha: opt.sha,
+        state: state.state,
+        description: state.description,
+        context: state.context
+    });
+}
 
 module.exports = function (options) {
     var jshint_output = ['**Please fix these jshint issues first:**'],
@@ -83,6 +97,26 @@ module.exports = function (options) {
                 console.log(jscs_output.join('\n'));
             }
             console.log('Please read gulp-github document: https://github.com/zordius/gulp-github');
+        }
+
+        if (opt.git_token && opt.git_repo && opt.git_sha) {
+            if (jshint_output.length > 1) {
+                if (opt.jshint_status) {
+                    createStatusToCommit({
+                        state: opt.jshint_status,
+                        description: (jshint_output.length - 1) + ' jshint issues found',
+                        context: 'gulp-github/jshint'
+                    });
+                }
+
+                if (opt.jscs_status) {
+                    createStatusToCommit({
+                        state: opt.jscs_status,
+                        description: (jscs_output.length - 1) + ' jscs issues found',
+                        context: 'gulp-github/jscs'
+                    });
+                }
+            }
         }
 
         cb();
