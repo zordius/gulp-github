@@ -41,6 +41,13 @@ gulp.task('link_report_github', function () {
 
 // Or, direct output your comment with same options
 github.commentToPR('Yes! it works!!', options);
+
+// Or, direct set status to a commit
+github.createStatusToCommit({
+   description: 'No! 2 failures...',
+   context: 'my gulp task',
+   state: 'failure'
+}, options);
 ```
 
 Options
