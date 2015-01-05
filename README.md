@@ -39,7 +39,7 @@ gulp.task('link_report_github', function () {
 });
 
 // Or, direct output your comment with same options
-github.commentToGithub('Yes! it works!!', options);
+github.commentToPR('Yes! it works!!', options);
 ```
 
 Options

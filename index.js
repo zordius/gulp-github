@@ -13,7 +13,7 @@ jscs_simple_reporter = function (E, file) {
     return ' 1. ' + path.relative(process.cwd(), file.path) + ': line ' + E.line + ', col ' + E.column + ' *' + E.message + '*';
 },
 
-commentToGithub = function (body, opt) {
+commentToPR = function (body, opt) {
     var GIT = new github(opt.git_option || {
         version: '3.0.0',
         headers: {
@@ -65,11 +65,11 @@ module.exports = function (options) {
         if (opt.git_token && opt.git_repo && opt.git_prid) {
             pr_url = 'https://' + ((opt.git_option && opt.git_option.host) ? opt.git_option.host : 'github.com') + '/' + opt.git_repo + '/pull/' + opt.git_prid;
             if (jshint_output.length > 1) {
-                commentToGithub(jshint_output.join('\n'), opt);
+                commentToPR(jshint_output.join('\n'), opt);
                 gutil.log('[gulp-github]', gutil.colors.bold((jshint_output.length - 1) + ' jshint issues were updated to ' + pr_url));
             }
             if (jscs_output.length > 1) {
-                commentToGithub(jscs_output.join('\n'), opt);
+                commentToPR(jscs_output.join('\n'), opt);
                 gutil.log('[gulp-github]', gutil.colors.bold((jscs_output.length - 1) + ' jscs issues were updated to ' + pr_url));
             }
         } else {
@@ -89,4 +89,4 @@ module.exports = function (options) {
     });
 };
 
-module.exports.commentToGithub = commentToGithub;
+module.exports.commentToPR = commentToPR;
