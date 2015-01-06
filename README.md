@@ -12,6 +12,7 @@ Features
 * Collect <a href="https://github.com/jscs-dev/gulp-jscs">gulp-jscs</a> results.
 * Write collected info then comment on a github pull request.
 * Update github pull request status based on collected info.
+* A failThisTask() reporter to fail a gulp task when jscs/jshint issues found
 * **TODO** Collect lcov result.
 
 Installation
