@@ -27,6 +27,15 @@ getGIT = function (opt) {
     return GIT;
 },
 
+closePR = function (opt) {
+    getGIT(opt).issues.update({
+        user: opt.git_repo.split('/')[0],
+        repo: opt.git_repo.split('/')[1],
+        number: opt.git_prid,
+        state: 'closed'
+    });
+},
+
 commentToPR = function (body, opt) {
     getGIT(opt).issues.createComment({
         user: opt.git_repo.split('/')[0],
@@ -44,6 +53,56 @@ createStatusToCommit = function (state, opt) {
         state: state.state,
         description: state.description,
         context: state.context
+    });
+},
+
+isPullRequest = function (opt) {
+    return opt.git_token && opt.git_repo && opt.git_prid && (opt.git_prid !== 'false');
+},
+
+isMerge = function (opt, callback) {
+    if (!isPullRequest(opt)) {
+        return;
+    }
+
+    getGIT(opt).pullRequests.getCommits({
+        user: opt.git_repo.split('/')[0],
+        repo: opt.git_repo.split('/')[1],
+        number: opt.git_prid,
+        per_page: 100
+    }, function (E, D) {
+        var merged = [];
+
+        if (E) {
+            console.warn(E);
+            return callback(E);
+        }
+
+        D.forEach(function (commit) {
+            if (commit.parents.length > 1) {
+                merged.push('* Commit: @' + commit.sha + ' is a merge from ' + commit.parents.map(function (C) {
+                    return '@' + C.sha;
+                }).join(' , ') + ' !!');
+            }
+        });
+
+        callback(merged.length ? merged.join('\n') : false);
+    });
+},
+
+failMergedPR = function (opt) {
+    isMerge(opt, function (M) {
+        if (M) {
+            commentToPR('**Do not accept PR with merge, please use rebase always!**\n' + M, opt);
+        }
+
+        createStatusToCommit({
+            state: 'failure',
+            description: 'merge in PR',
+            context: 'gulp-github/is_merge'
+        }, opt);
+
+        closePR(opt);
     });
 },
 
@@ -112,7 +171,7 @@ module.exports = function (options) {
             return cb();
         }
 
-        if (opt.git_token && opt.git_repo && opt.git_prid && (opt.git_prid !== 'false')) {
+        if (isPullRequest(opt)) {
             pr_url = 'https://' + ((opt.git_option && opt.git_option.host) ? opt.git_option.host : 'github.com') + '/' + opt.git_repo + '/pull/' + opt.git_prid;
             if (jshint_output.length > 1) {
                 commentToPR(jshint_output.join('\n'), opt);
@@ -164,3 +223,5 @@ module.exports = function (options) {
 module.exports.commentToPR = commentToPR;
 module.exports.createStatusToCommit = createStatusToCommit;
 module.exports.failThisTask = failThisTask;
+module.exports.failMergedPR = failMergedPR;
+module.exports.isMerge = isMerge;
