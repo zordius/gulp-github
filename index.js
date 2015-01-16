@@ -28,7 +28,7 @@ getGIT = function (opt) {
 },
 
 closePR = function (opt) {
-    getGIT(opt).issues.update({
+    getGIT(opt).issues.edit({
         user: opt.git_repo.split('/')[0],
         repo: opt.git_repo.split('/')[1],
         number: opt.git_prid,
@@ -92,9 +92,11 @@ isMerge = function (opt, callback) {
 
 failMergedPR = function (opt) {
     isMerge(opt, function (M) {
-        if (M) {
-            commentToPR('**Do not accept PR with merge, please use rebase always!**\n' + M, opt);
+        if (!M) {
+            return;
         }
+
+        commentToPR('**Do not accept PR with merge, please use rebase always!**\n' + M, opt);
 
         createStatusToCommit({
             state: 'failure',
