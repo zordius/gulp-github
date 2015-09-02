@@ -1,5 +1,4 @@
 {
-    "additionalRules": ["rules/disallow-dot-notation-for-keywords.js"],
     "fileExtensions": [".js", ".jsx"],
     "disallowMixedSpacesAndTabs": true,
     "disallowNewlineBeforeBlockStatements": true,
@@ -41,7 +40,7 @@
     "safeContextKeyword": ["self"],
 
     "validateIndentation": 4,
-    "validateJSDoc": {
+    "jsDoc": {
         "checkParamNames": true,
         "checkRedundantParams": true,
         "requireParamTypes": true,
