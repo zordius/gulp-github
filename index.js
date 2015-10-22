@@ -90,21 +90,33 @@ isMerge = function (opt, callback) {
     });
 },
 
-failMergedPR = function (opt) {
+failMergedPR = function (opt, cb) {
+    var count = 0;
+    var err = [];
+    var done = function (E) {
+        count++;
+        if (E) {
+            err.push(E);
+        }
+        if ((count == 3) && cb) {
+            cb(err.length ? err : undefined);
+        }
+    };
+
     isMerge(opt, function (M) {
         if (!M) {
             return;
         }
 
-        commentToPR('**Do not accept PR with merge, please use rebase always!**\n' + M, opt);
+        commentToPR('**Do not accept PR with merge, please use rebase always!**\n' + M, opt, done);
 
         createStatusToCommit({
             state: 'failure',
             description: 'merge in PR',
             context: 'gulp-github/is_merge'
-        }, opt);
+        }, opt, done);
 
-        closePR(opt);
+        closePR(opt, done);
     });
 },
 
