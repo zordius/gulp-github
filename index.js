@@ -15,7 +15,7 @@ var eslint_simple_reporter = function (E, file) {
     return ' 1. ' + path.relative(process.cwd(), file.path) + ': line ' + E.line + ', col ' + E.column + ' *' + E.message + '* (' + E.moduleId + ')';
 };
 
-getGIT = function (opt) {
+var getGIT = function (opt) {
     var GIT = new github(opt.git_option || {
         version: '3.0.0',
         headers: {
@@ -27,27 +27,27 @@ getGIT = function (opt) {
         token: opt.git_token
     });
     return GIT;
-},
+};
 
-closePR = function (opt, cb) {
+var closePR = function (opt, cb) {
     getGIT(opt).issues.edit({
         user: opt.git_repo.split('/')[0],
         repo: opt.git_repo.split('/')[1],
         number: opt.git_prid,
         state: 'closed'
     }, cb);
-},
+};
 
-commentToPR = function (body, opt, cb) {
+var commentToPR = function (body, opt, cb) {
     getGIT(opt).issues.createComment({
         user: opt.git_repo.split('/')[0],
         repo: opt.git_repo.split('/')[1],
         number: opt.git_prid,
         body: body
     }, cb);
-},
+};
 
-createStatusToCommit = function (state, opt, cb) {
+var createStatusToCommit = function (state, opt, cb) {
     getGIT(opt).statuses.create({
         user: opt.git_repo.split('/')[0],
         repo: opt.git_repo.split('/')[1],
@@ -56,13 +56,13 @@ createStatusToCommit = function (state, opt, cb) {
         description: state.description,
         context: state.context
     }, cb);
-},
+};
 
-isPullRequest = function (opt) {
+var isPullRequest = function (opt) {
     return opt.git_token && opt.git_repo && opt.git_prid && (opt.git_prid !== 'false');
-},
+};
 
-isMerge = function (opt, callback) {
+var isMerge = function (opt, callback) {
     if (!isPullRequest(opt)) {
         return;
     }
@@ -90,9 +90,9 @@ isMerge = function (opt, callback) {
 
         callback(merged.length ? merged.join('\n') : false);
     });
-},
+};
 
-failMergedPR = function (opt, cb) {
+var failMergedPR = function (opt, cb) {
     var count = 0;
     var err = [];
     var done = function (E) {
@@ -120,9 +120,9 @@ failMergedPR = function (opt, cb) {
 
         closePR(opt, done);
     });
-},
+};
 
-failThisTask = function () {
+var failThisTask = function () {
     var jshint_fails = 0,
         jscs_fails = 0;
 
