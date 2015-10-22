@@ -1,12 +1,14 @@
 var gulp = require('gulp'),
     jshint = require('gulp-jshint'),
     jscs = require('gulp-jscs'),
+    eslint = require('gulp-eslint'),
     github = require('./index');
 
 gulp.task('default', function () {
     return gulp.src('*.js')
     .pipe(jshint())
     .pipe(jscs())
+    .pipe(eslint())
     .on('error', function () {
         // handle error, skip gulp-jscs messages
     })
