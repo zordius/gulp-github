@@ -1,6 +1,6 @@
 {
   "name": "gulp-github",
-  "version": "0.1.0",
+  "version": "0.2.3",
   "description": "A gulp plugin to pipe contents to github pull request comments.",
   "author": "Zordius <zordius@yahoo-inc.com>",
   "contributors": [
@@ -26,14 +26,14 @@
   },
   "main": "index.js",
   "dependencies": {
-    "github": "0.2.3",
-    "gulp-util": "3.0.1",
+    "github": "0.2.4",
+    "gulp-util": "3.0.6",
     "through2": "*"
   },
   "devDependencies": {
-    "gulp": "3.8.10",
-    "gulp-jshint": "1.9.0",
-    "gulp-jscs": "1.4.0"
+    "gulp": "3.9.0",
+    "gulp-jshint": "1.11.2",
+    "gulp-jscs": "2.0.0"
   },
   "engines": {
     "node": ">=0.8"

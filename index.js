@@ -27,16 +27,25 @@ getGIT = function (opt) {
     return GIT;
 },
 
-commentToPR = function (body, opt) {
+closePR = function (opt, cb) {
+    getGIT(opt).issues.edit({
+        user: opt.git_repo.split('/')[0],
+        repo: opt.git_repo.split('/')[1],
+        number: opt.git_prid,
+        state: 'closed'
+    }, cb);
+},
+
+commentToPR = function (body, opt, cb) {
     getGIT(opt).issues.createComment({
         user: opt.git_repo.split('/')[0],
         repo: opt.git_repo.split('/')[1],
         number: opt.git_prid,
         body: body
-    });
+    }, cb);
 },
 
-createStatusToCommit = function (state, opt) {
+createStatusToCommit = function (state, opt, cb) {
     getGIT(opt).statuses.create({
         user: opt.git_repo.split('/')[0],
         repo: opt.git_repo.split('/')[1],
@@ -44,8 +53,108 @@ createStatusToCommit = function (state, opt) {
         state: state.state,
         description: state.description,
         context: state.context
+    }, cb);
+},
+
+isPullRequest = function (opt) {
+    return opt.git_token && opt.git_repo && opt.git_prid && (opt.git_prid !== 'false');
+},
+
+isMerge = function (opt, callback) {
+    if (!isPullRequest(opt)) {
+        return;
+    }
+
+    getGIT(opt).pullRequests.getCommits({
+        user: opt.git_repo.split('/')[0],
+        repo: opt.git_repo.split('/')[1],
+        number: opt.git_prid,
+        per_page: 100
+    }, function (E, D) {
+        var merged = [];
+
+        if (E) {
+            console.warn(E);
+            return callback(E);
+        }
+
+        D.forEach(function (commit) {
+            if (commit.parents.length > 1) {
+                merged.push('* Commit: @' + commit.sha + ' is a merge from ' + commit.parents.map(function (C) {
+                    return '@' + C.sha;
+                }).join(' , ') + ' !!');
+            }
+        });
+
+        callback(merged.length ? merged.join('\n') : false);
     });
-}
+},
+
+failMergedPR = function (opt, cb) {
+    var count = 0;
+    var err = [];
+    var done = function (E) {
+        count++;
+        if (E) {
+            err.push(E);
+        }
+        if ((count == 3) && cb) {
+            cb(err.length ? err : undefined);
+        }
+    };
+
+    isMerge(opt, function (M) {
+        if (!M) {
+            return;
+        }
+
+        commentToPR('**Do not accept PR with merge, please use rebase always!**\n' + M, opt, done);
+
+        createStatusToCommit({
+            state: 'failure',
+            description: 'merge in PR',
+            context: 'gulp-github/is_merge'
+        }, opt, done);
+
+        closePR(opt, done);
+    });
+},
+
+failThisTask = function () {
+    var jshint_fails = 0,
+        jscs_fails = 0;
+
+    return through.obj(function (file, enc, callback) {
+        if (file.jshint && !file.jshint.success && !file.jshint.ignored) {
+            jshint_fails += file.jshint.results.length;
+        }
+
+        if (file.jscs && !file.jscs.success) {
+            jscs_fails += file.jscs.errors.length;
+        }
+        this.push(file);
+        callback();
+    }, function (cb) {
+        var message = [];
+
+        if (jshint_fails) {
+            message.push('found ' + jshint_fails + ' jshint issues');
+        }
+
+        if (jscs_fails) {
+            message.push('found ' + jscs_fails + ' jscs issues');
+        }
+
+        if (message.length) {
+            this.emit('error', new gutil.PluginError('gulp-github', {
+                message: 'Failed: ' + message.join(', ') + '.',
+                showStack: false
+            }));
+        }
+
+        cb();
+    });
+};
 
 module.exports = function (options) {
     var jshint_output = ['**Please fix these jshint issues first:**'],
@@ -71,12 +180,19 @@ module.exports = function (options) {
         callback();
     }, function (cb) {
         var pr_url;
+        var count = 0;
+        var done = function () {
+            count--;
+            if (count == 0) {
+                cb();
+            }
+        };
 
         if ((jshint_output.length === 1) && (jscs_output.length === 1)) {
             return cb();
         }
 
-        if (opt.git_token && opt.git_repo && opt.git_prid) {
+        if (isPullRequest(opt)) {
             pr_url = 'https://' + ((opt.git_option && opt.git_option.host) ? opt.git_option.host : 'github.com') + '/' + opt.git_repo + '/pull/' + opt.git_prid;
             if (jshint_output.length > 1) {
                 commentToPR(jshint_output.join('\n'), opt);
@@ -100,27 +216,37 @@ module.exports = function (options) {
         }
 
         if (opt.git_token && opt.git_repo && opt.git_sha) {
+            count++;
             if (jshint_output.length > 1) {
                 if (opt.jshint_status) {
+                    count++;
                     createStatusToCommit({
                         state: opt.jshint_status,
                         description: (jshint_output.length - 1) + ' jshint issues found',
                         context: 'gulp-github/jshint'
-                    }, opt);
+                    }, opt, done);
                 }
+            }
 
+            if (jscs_output.length > 1) {
                 if (opt.jscs_status) {
+                    count++;
                     createStatusToCommit({
                         state: opt.jscs_status,
                         description: (jscs_output.length - 1) + ' jscs issues found',
                         context: 'gulp-github/jscs'
-                    }, opt);
+                    }, opt, done);
                 }
             }
         }
 
-        cb();
+        count++;
+        done();
     });
 };
 
 module.exports.commentToPR = commentToPR;
+module.exports.createStatusToCommit = createStatusToCommit;
+module.exports.failThisTask = failThisTask;
+module.exports.failMergedPR = failMergedPR;
+module.exports.isMerge = isMerge;

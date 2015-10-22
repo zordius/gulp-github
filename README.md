@@ -8,9 +8,11 @@ A gulp plugin to pipe contents to github pull request comments.
 Features
 --------
 
-* Write collected info then comment on a github pull request.
 * Collect <a href="https://github.com/spenceralger/gulp-jshint">gulp-jshint</a> results.
 * Collect <a href="https://github.com/jscs-dev/gulp-jscs">gulp-jscs</a> results.
+* Write collected info then comment on a github pull request.
+* Update github pull request status based on collected info.
+* A failThisTask() reporter to fail a gulp task when jscs/jshint issues found
 * **TODO** Collect lcov result.
 
 Installation
@@ -33,13 +35,21 @@ gulp.task('link_report_github', function () {
     return gulp.src('lib/*.js')
     .pipe(jshint())
     .pipe(jscs()).on('error', function (E) {
-        console.log(E.message); // This handled jscs stream error
+        console.log(E.message);   // This handled jscs stream error.
     })
-    .pipe(github(options)); // comment issues in github PR!
+    .pipe(github(options));       // Comment issues in github PR!
+    .pipe(github.failThisTask()); // Fail this task when jscs/jshint issues found.
 });
 
 // Or, direct output your comment with same options
 github.commentToPR('Yes! it works!!', options);
+
+// Or, direct set status to a commit
+github.createStatusToCommit({
+   description: 'No! 2 failures...',
+   context: 'my gulp task',
+   state: 'failure'
+}, options);
 ```
 
 Options
@@ -81,3 +91,5 @@ Options
 ```
 
 Check this <a href="gulpfile.js">sample gulpfile</a> to see how to migrate this with travis CI.
+
+Check <a href="https://github.com/zordius/gulp-github/pull/3">This PR</a> to see live demo. Click on <span style="color:red">✘</span> symbol before d9bc05e to see created status.
