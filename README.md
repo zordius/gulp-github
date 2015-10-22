@@ -8,11 +8,12 @@ A gulp plugin to pipe contents to github pull request comments.
 Features
 --------
 
-* Collect <a href="https://github.com/spenceralger/gulp-jshint">gulp-jshint</a> results.
-* Collect <a href="https://github.com/jscs-dev/gulp-jscs">gulp-jscs</a> results.
-* Collect <a href="https://github.com/adametry/gulp-eslint">gulp-eslint</a> results.
-* Write collected info then comment on a github pull request.
-* Update github pull request status based on collected info.
+* See your CI issues on github!
+  * Collect <a href="https://github.com/spenceralger/gulp-jshint">gulp-jshint</a> results.
+  * Collect <a href="https://github.com/jscs-dev/gulp-jscs">gulp-jscs</a> results.
+  * Collect <a href="https://github.com/adametry/gulp-eslint">gulp-eslint</a> results.
+  * Write collected info then comment on a github pull request.
+  * Update github pull request status based on collected info.
 * A failThisTask() reporter to fail a gulp task when jscs/jshint/eslint issues found
 * **TODO** Collect lcov result.
 
