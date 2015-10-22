@@ -183,7 +183,7 @@ module.exports = function (options) {
         var count = 0;
         var done = function () {
             count--;
-            if (count == 0) {
+            if (count === 0) {
                 cb();
             }
         };
