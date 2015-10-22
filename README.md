@@ -10,9 +10,10 @@ Features
 
 * Collect <a href="https://github.com/spenceralger/gulp-jshint">gulp-jshint</a> results.
 * Collect <a href="https://github.com/jscs-dev/gulp-jscs">gulp-jscs</a> results.
+* Collect <a href="https://github.com/adametry/gulp-eslint">gulp-eslint</a> results.
 * Write collected info then comment on a github pull request.
 * Update github pull request status based on collected info.
-* A failThisTask() reporter to fail a gulp task when jscs/jshint issues found
+* A failThisTask() reporter to fail a gulp task when jscs/jshint/eslint issues found
 * **TODO** Collect lcov result.
 
 Installation
@@ -29,6 +30,7 @@ Usage
 var gulp = require('gulp'),
     jshint = require('gulp-jshint'),
     jscs = require('gulp-jscs'),
+    eslint = require('gulp-eslint'),
     github = require('gulp-github');
 
 gulp.task('link_report_github', function () {
@@ -37,8 +39,9 @@ gulp.task('link_report_github', function () {
     .pipe(jscs()).on('error', function (E) {
         console.log(E.message);   // This handled jscs stream error.
     })
+    .pipe(eslint())
     .pipe(github(options));       // Comment issues in github PR!
-    .pipe(github.failThisTask()); // Fail this task when jscs/jshint issues found.
+    .pipe(github.failThisTask()); // Fail this task when jscs/jshint/eslint issues found.
 });
 
 // Or, direct output your comment with same options
