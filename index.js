@@ -1,15 +1,19 @@
-var through = require('through2'),
-    gutil = require('gulp-util'),
-    github = require('github'),
-    path = require('path'),
+var through = require('through2');
+var gutil = require('gulp-util');
+var github = require('github');
+var path = require('path');
 
-jshint_simple_reporter = function (E) {
+var jshint_simple_reporter = function (E) {
     return ' 1. ' + path.relative(process.cwd(), E.file) + ': line ' + E.error.line + ', col ' + E.error.character + ' *' + E.error.reason + '*';
-},
+};
 
-jscs_simple_reporter = function (E, file) {
+var jscs_simple_reporter = function (E, file) {
     return ' 1. ' + path.relative(process.cwd(), file.path) + ': line ' + E.line + ', col ' + E.column + ' *' + E.message + '*';
-},
+};
+
+var eslint_simple_reporter = function (E, file) {
+    return ' 1. ' + path.relative(process.cwd(), file.path) + ': line ' + E.line + ', col ' + E.column + ' *' + E.message + '* (' + E.moduleId + ')';
+};
 
 getGIT = function (opt) {
     var GIT = new github(opt.git_option || {
@@ -157,6 +161,7 @@ failThisTask = function () {
 module.exports = function (options) {
     var jshint_output = ['**Please fix these jshint issues first:**'],
         jscs_output = ['**Please fix these jscs issues first:**'],
+        eslint_output = ['**Please fix these eslint issues first:**'],
         opt = options || {},
         jshint_reporter = opt.jshint_reporter || jshint_simple_reporter,
         jscs_reporter = opt.jscs_reporter || jscs_simple_reporter;
@@ -171,6 +176,12 @@ module.exports = function (options) {
         if (file.jscs && !file.jscs.success) {
             file.jscs.errors.forEach(function (E) {
                 jscs_output.push(jscs_reporter(E, file));
+            });
+        }
+
+        if (file.eslint) {
+            file.eslint.messages.forEach(function (E) {
+                eslint_output.push(eslint_simple_reporter(E, file));
             });
         }
 
@@ -203,14 +214,18 @@ module.exports = function (options) {
         } else {
             console.log('Not a pullrequest or no opts.git_token/opts.git_repo/opts.git_prid');
             if (jshint_output.length > 1) {
-                console.log('These jshint issues will not update to github:');
+                console.log('\nThese jshint issues will not update to github:');
                 console.log(jshint_output.join('\n'));
             }
             if (jscs_output.length > 1) {
-                console.log('These jscs issues will not update to github:');
+                console.log('\nThese jscs issues will not update to github:');
                 console.log(jscs_output.join('\n'));
             }
-            console.log('Please read gulp-github document: https://github.com/zordius/gulp-github');
+            if (eslint_output.length > 1) {
+                console.log('\nThese eslint issues will not update to github:');
+                console.log(eslint_output.join('\n'));
+            }
+            console.log('\nPlease read gulp-github document: https://github.com/zordius/gulp-github');
         }
 
         if (opt.git_token && opt.git_repo && opt.git_sha) {
