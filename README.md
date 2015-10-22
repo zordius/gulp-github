@@ -67,8 +67,9 @@ Options
 
     // create status to this commit, optional
     git_sha: 00000000,
-    jshint_status: 'error',       // Set status to error when jshint errors
-    jscs_status: 'failure',       // Set status to failure when jscs errors
+    jshint_status: 'error',       // Set status to error when jshint errors, optional
+    jscs_status: 'failure',       // Set git status to failure when jscs errors, optional
+    eslint_status: 'error',       // Set git status to error when eslint errors, optional
 
     // when using github enterprise, optional
     git_option: {
