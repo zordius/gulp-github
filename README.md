@@ -1,14 +1,14 @@
 gulp-github
 ===========
 
-A gulp plugin to pipe contents to github pull request comments.
+A gulp plugin to comment jscs/jshint/eslint issues to a github pull request.
 
 [![npm version](https://img.shields.io/npm/v/gulp-github.svg)](https://www.npmjs.org/package/gulp-github) [![Dependency Status](https://david-dm.org/zordius/gulp-github.svg)](https://david-dm.org/zordius/gulp-github) [![Build Status](https://travis-ci.org/zordius/gulp-github.svg?branch=master)](https://travis-ci.org/zordius/gulp-github) [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE.txt)
 
 Features
 --------
 
-* See your CI issues on github!
+* See your CI issues of lint tools on github!
   * Collect <a href="https://github.com/spenceralger/gulp-jshint">gulp-jshint</a> results.
   * Collect <a href="https://github.com/jscs-dev/gulp-jscs">gulp-jscs</a> results.
   * Collect <a href="https://github.com/adametry/gulp-eslint">gulp-eslint</a> results.
