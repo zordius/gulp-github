@@ -6,9 +6,10 @@ var gulp = require('gulp'),
 
 gulp.task('default', function () {
     return gulp.src('*.js')
+    .pipe(eslint())
+    .pipe(eslint.formatEach())
     .pipe(jshint())
     .pipe(jscs())
-    .pipe(eslint())
     .on('error', function () {
         // handle error, skip gulp-jscs messages
     })
