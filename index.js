@@ -230,6 +230,7 @@ module.exports = function (options) {
 
         if (opt.git_token && opt.git_repo && opt.git_sha) {
             count++;
+
             if (jshint_output.length > 1) {
                 if (opt.jshint_status) {
                     count++;
@@ -251,6 +252,18 @@ module.exports = function (options) {
                     }, opt, done);
                 }
             }
+
+            if (eslint_output.length > 1) {
+                if (opt.eslint_status) {
+                    count++;
+                    createStatusToCommit({
+                        state: opt.eslint_status,
+                        description: (eslint_output.length - 1) + ' eslint issues found',
+                        context: 'gulp-github/eslint'
+                    }, opt, done);
+                }
+            }
+
             count--;
         }
 
