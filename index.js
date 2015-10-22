@@ -180,6 +180,13 @@ module.exports = function (options) {
         callback();
     }, function (cb) {
         var pr_url;
+        var count = 0;
+        var done = function () {
+            count--;
+            if (count == 0) {
+                cb();
+            }
+        };
 
         if ((jshint_output.length === 1) && (jscs_output.length === 1)) {
             return cb();
@@ -209,28 +216,32 @@ module.exports = function (options) {
         }
 
         if (opt.git_token && opt.git_repo && opt.git_sha) {
+            count++;
             if (jshint_output.length > 1) {
                 if (opt.jshint_status) {
+                    count++;
                     createStatusToCommit({
                         state: opt.jshint_status,
                         description: (jshint_output.length - 1) + ' jshint issues found',
                         context: 'gulp-github/jshint'
-                    }, opt);
+                    }, opt, done);
                 }
             }
 
             if (jscs_output.length > 1) {
                 if (opt.jscs_status) {
+                    count++;
                     createStatusToCommit({
                         state: opt.jscs_status,
                         description: (jscs_output.length - 1) + ' jscs issues found',
                         context: 'gulp-github/jscs'
-                    }, opt);
+                    }, opt, done);
                 }
             }
         }
 
-        cb();
+        count++;
+        done();
     });
 };
 
