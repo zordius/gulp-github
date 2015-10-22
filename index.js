@@ -238,6 +238,7 @@ module.exports = function (options) {
                     }, opt, done);
                 }
             }
+            count--;
         }
 
         count++;
