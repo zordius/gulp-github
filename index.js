@@ -27,25 +27,25 @@ getGIT = function (opt) {
     return GIT;
 },
 
-closePR = function (opt) {
+closePR = function (opt, cb) {
     getGIT(opt).issues.edit({
         user: opt.git_repo.split('/')[0],
         repo: opt.git_repo.split('/')[1],
         number: opt.git_prid,
         state: 'closed'
-    });
+    }, cb);
 },
 
-commentToPR = function (body, opt) {
+commentToPR = function (body, opt, cb) {
     getGIT(opt).issues.createComment({
         user: opt.git_repo.split('/')[0],
         repo: opt.git_repo.split('/')[1],
         number: opt.git_prid,
         body: body
-    });
+    }, cb);
 },
 
-createStatusToCommit = function (state, opt) {
+createStatusToCommit = function (state, opt, cb) {
     getGIT(opt).statuses.create({
         user: opt.git_repo.split('/')[0],
         repo: opt.git_repo.split('/')[1],
@@ -53,7 +53,7 @@ createStatusToCommit = function (state, opt) {
         state: state.state,
         description: state.description,
         context: state.context
-    });
+    }, cb);
 },
 
 isPullRequest = function (opt) {
