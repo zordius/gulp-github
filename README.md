@@ -16,6 +16,8 @@ Features
 * A failThisTask() reporter to fail a gulp task when jscs/jshint/eslint issues found
 * **TODO** Collect lcov result.
 
+<img src="demo.png" />
+
 Installation
 ------------
 
