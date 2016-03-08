@@ -124,7 +124,8 @@ var failMergedPR = function (opt, cb) {
 
 var failThisTask = function () {
     var jshint_fails = 0,
-        jscs_fails = 0;
+        jscs_fails = 0,
+        eslint_fails = 0;
 
     return through.obj(function (file, enc, callback) {
         if (file.jshint && !file.jshint.success && !file.jshint.ignored) {
@@ -134,6 +135,13 @@ var failThisTask = function () {
         if (file.jscs && !file.jscs.success) {
             jscs_fails += file.jscs.errors.length;
         }
+
+        if (file.eslint) {
+            file.eslint.messages.forEach(function () {
+                eslint_fails++;
+            });
+        }
+
         this.push(file);
         callback();
     }, function (cb) {
@@ -145,6 +153,10 @@ var failThisTask = function () {
 
         if (jscs_fails) {
             message.push('found ' + jscs_fails + ' jscs issues');
+        }
+
+        if (eslint_fails) {
+            message.push('found ' + eslint_fails + ' eslint issues');
         }
 
         if (message.length) {
