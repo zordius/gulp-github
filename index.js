@@ -209,7 +209,7 @@ module.exports = function (options) {
             }
         };
 
-        if ((jshint_output.length === 1) && (jscs_output.length === 1)) {
+        if ((jshint_output.length === 1) && (jscs_output.length === 1) && (eslint_output.length === 1)) {
             return cb();
         }
 
