@@ -223,6 +223,10 @@ module.exports = function (options) {
                 commentToPR(jscs_output.join('\n'), opt);
                 gutil.log('[gulp-github]', gutil.colors.bold((jscs_output.length - 1) + ' jscs issues were updated to ' + pr_url));
             }
+            if (eslint_output.length > 1) {
+                commentToPR(eslint_output.join('\n'), opt);
+                gutil.log('[gulp-github]', gutil.colors.bold((eslint_output.length - 1) + ' eslint issues were updated to ' + pr_url));
+            }
         } else {
             console.log('Not a pullrequest or no opts.git_token/opts.git_repo/opts.git_prid');
             if (jshint_output.length > 1) {
