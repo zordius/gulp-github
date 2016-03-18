@@ -56,6 +56,11 @@ github.createStatusToCommit({
    context: 'my gulp task',
    state: 'failure'
 }, options);
+
+// Or, create a task to reject PR with merged commits
+gulp.task('git_rules', function (cb) {
+    git.failMergedPR(options, cb);
+});
 ```
 
 Options

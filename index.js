@@ -64,7 +64,7 @@ var isPullRequest = function (opt) {
 
 var isMerge = function (opt, callback) {
     if (!isPullRequest(opt)) {
-        return;
+        return callback();
     }
 
     getGIT(opt).pullRequests.getCommits({
@@ -109,6 +109,8 @@ var failMergedPR = function (opt, cb) {
         if (!M) {
             return;
         }
+
+        err.push(M);
 
         commentToPR('**Do not accept PR with merge, please use rebase always!**\n' + M, opt, done);
 
