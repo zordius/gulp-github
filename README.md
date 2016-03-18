@@ -36,7 +36,7 @@ var gulp = require('gulp'),
     eslint = require('gulp-eslint'),
     github = require('gulp-github');
 
-gulp.task('link_report_github', function () {
+gulp.task('lint_report_github', function () {
     return gulp.src('lib/*.js')
     .pipe(jshint())
     .pipe(jscs()).on('error', function (E) {
