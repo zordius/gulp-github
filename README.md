@@ -84,8 +84,10 @@ Options
 
     // when using github enterprise, optional
     git_option: {
-        // refer to https://www.npmjs.com/package/github
-        host: 'github.mycorp.com'
+        // refer to https://www.npmjs.com/package/github for more options
+        host: 'github.mycorp.com',
+        // You may require this when you using Enterprise Github
+        pathPrefix: '/api/v3'
     },
 
     // Provide your own jshint reporter, optional
