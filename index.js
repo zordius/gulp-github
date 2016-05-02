@@ -47,6 +47,17 @@ var commentToPR = function (body, opt, cb) {
     }, cb);
 };
 
+var commentToPRFile = function (body, opt, path, cb) {
+    getGIT(opt).pullRequests.createComment({
+        user: opt.git_repo.split('/')[0],
+        repo: opt.git_repo.split('/')[1],
+        number: opt.git_prid,
+        commit_id: opt.git_sha,
+        path: path,
+        body: body
+    }, cb);
+};
+
 var createStatusToCommit = function (state, opt, cb) {
     getGIT(opt).statuses.create({
         user: opt.git_repo.split('/')[0],
