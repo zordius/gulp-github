@@ -199,7 +199,7 @@ module.exports = function (options) {
         }
 
         if (file.jscs && !file.jscs.success) {
-            file.jscs.errors.forEach(function (E) {
+            file.jscs.errors.getErrorList().forEach(function (E) {
                 jscs_output.push(jscs_reporter(E, file));
             });
         }

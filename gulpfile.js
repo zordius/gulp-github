@@ -5,7 +5,7 @@ var gulp = require('gulp'),
     github = require('./index');
 
 gulp.task('default', function () {
-    return gulp.src('*.js')
+    return gulp.src(['*.js', 'lint_test/*.js'])
     .pipe(eslint())
     .pipe(jshint())
     .pipe(jscs())
