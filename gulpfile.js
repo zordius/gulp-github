@@ -4,6 +4,8 @@ var gulp = require('gulp'),
     eslint = require('gulp-eslint'),
     github = require('./index');
 
+require('es6-promise').polyfill();
+
 gulp.task('default', function () {
     return gulp.src(['*.js', 'lint_test/*.js'])
     .pipe(eslint())
