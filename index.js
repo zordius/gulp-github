@@ -190,7 +190,7 @@ module.exports = function (options) {
         if (file.jshint && !file.jshint.success && !file.jshint.ignored) {
             file.jshint.results.forEach(function (E) {
                 if (opt.dist_to_files && isPullRequest(opt)) {
-                    promises.push(commentToPRFile('**JSHINT ERROR:**' + E.error.reason, Object.assign({position: Eerror.line}, opt), path.relative(process.cwd(), file.path)));
+                    promises.push(commentToPRFile('**JSHINT ERROR:**' + E.error.reason, Object.assign({position: E.error.line}, opt), path.relative(process.cwd(), file.path)));
                 }
                 jshint_output.push(jshint_reporter(E, file));
             });
