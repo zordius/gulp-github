@@ -35,7 +35,8 @@
     "gulp-jshint": "2.0.0",
     "gulp-jscs": "3.0.2",
     "gulp-eslint": "2.0.0",
-    "es6-promise": "3.1.2"
+    "es6-promise": "3.1.2",
+    "object.assign": "4.0.3"
   },
   "engines": {
     "node": ">=0.8"

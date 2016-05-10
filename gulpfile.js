@@ -5,6 +5,7 @@ var gulp = require('gulp'),
     github = require('./index');
 
 require('es6-promise').polyfill();
+require('object.assign').shim();
 
 gulp.task('default', function () {
     return gulp.src(['*.js', 'lint_test/*.js'])
@@ -22,6 +23,8 @@ gulp.task('default', function () {
         git_repo: process.env.TRAVIS_REPO_SLUG,
         git_prid: process.env.TRAVIS_PULL_REQUEST,
         git_sha: process.env.TRAVIS_COMMIT,
+
+        dist_to_files: true,
 
         jshint_status: 'error',  // Set status to error when jshint errors
         jscs_status: 'failure',  // Set status to failure when jscs errors

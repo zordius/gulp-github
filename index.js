@@ -185,26 +185,44 @@ module.exports = function (options) {
         jscs_reporter = opt.jscs_reporter || jscs_simple_reporter;
 
     return through.obj(function (file, enc, callback) {
+        var promises = [];
+
         if (file.jshint && !file.jshint.success && !file.jshint.ignored) {
             file.jshint.results.forEach(function (E) {
+                if (opt.dist_to_files && isPullRequest(opt)) {
+                    promises.push(commentToPRFile('**JSHINT ERROR:**' + E.error.reason, Obejct.assign({position: Eerror.line}, opt), path.relative(process.cwd(), file.path)));
+                }
                 jshint_output.push(jshint_reporter(E, file));
             });
         }
 
         if (file.jscs && !file.jscs.success) {
             file.jscs.errors.getErrorList().forEach(function (E) {
+                if (opt.dist_to_files && isPullRequest(opt)) {
+                    promises.push(commentToPRFile('**JSCS ERROR:**' + E.message, Obejct.assign({position: E.line}, opt), path.relative(process.cwd(), file.path)));
+                }
                 jscs_output.push(jscs_reporter(E, file));
             });
         }
 
         if (file.eslint) {
             file.eslint.messages.forEach(function (E) {
+                if (opt.dist_to_files && isPullRequest(opt)) {
+                    promises.push(commentToPRFile('**ESLINT ERROR:**' + E.message + (E.moduleId ? ' (' + E.moduleId + ')' : ''), Obejct.assign({position: E.line}, opt), path.relative(process.cwd(), file.path)));
+                }
                 eslint_output.push(eslint_simple_reporter(E, file));
             });
         }
 
         this.push(file);
-        callback();
+
+        if (promises.length) {
+            Promise.all(promises).then(function () {
+                callback();
+            }, callback);
+        } else {
+            callback();
+        }
     }, function (cb) {
         var pr_url;
         var promises = [];
@@ -216,15 +234,21 @@ module.exports = function (options) {
         if (isPullRequest(opt)) {
             pr_url = 'https://' + ((opt.git_option && opt.git_option.host) ? opt.git_option.host : 'github.com') + '/' + opt.git_repo + '/pull/' + opt.git_prid;
             if (jshint_output.length > 1) {
-                promises.push(commentToPR(jshint_output.join('\n'), opt));
+                if (!opt.dist_to_files) {
+                    promises.push(commentToPR(jshint_output.join('\n'), opt));
+                }
                 gutil.log('[gulp-github]', gutil.colors.bold((jshint_output.length - 1) + ' jshint issues were updated to ' + pr_url));
             }
             if (jscs_output.length > 1) {
-                promises.push(commentToPR(jscs_output.join('\n'), opt));
+                if (!opt.dist_to_files) {
+                    promises.push(commentToPR(jscs_output.join('\n'), opt));
+                }
                 gutil.log('[gulp-github]', gutil.colors.bold((jscs_output.length - 1) + ' jscs issues were updated to ' + pr_url));
             }
             if (eslint_output.length > 1) {
-                promises.push(commentToPR(eslint_output.join('\n'), opt));
+                if (!opt.dist_to_files) {
+                    promises.push(commentToPR(eslint_output.join('\n'), opt));
+                }
                 gutil.log('[gulp-github]', gutil.colors.bold((eslint_output.length - 1) + ' eslint issues were updated to ' + pr_url));
             }
         } else {
