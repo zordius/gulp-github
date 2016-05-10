@@ -4,8 +4,11 @@ var gulp = require('gulp'),
     eslint = require('gulp-eslint'),
     github = require('./index');
 
+require('es6-promise').polyfill();
+require('object.assign').shim();
+
 gulp.task('default', function () {
-    return gulp.src('*.js')
+    return gulp.src(['*.js', 'lint_test/*.js'])
     .pipe(eslint())
     .pipe(jshint())
     .pipe(jscs())
@@ -21,8 +24,11 @@ gulp.task('default', function () {
         git_prid: process.env.TRAVIS_PULL_REQUEST,
         git_sha: process.env.TRAVIS_COMMIT,
 
-        jshint_status: 'error', // Set status to error when jshint errors
-        jscs_status: 'failure'  // Set status to failure when jscs errors
+        dist_to_files: true,
+
+        jshint_status: 'error',  // Set status to error when jshint errors
+        jscs_status: 'failure',  // Set status to failure when jscs errors
+        eslint_status: 'failure' // Set status to failure when eslint errors
     }))
     .pipe(github.failThisTask());
 });

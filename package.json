@@ -27,14 +27,16 @@
   "main": "index.js",
   "dependencies": {
     "github": "0.2.4",
-    "gulp-util": "3.0.6",
+    "gulp-util": "3.0.7",
     "through2": "*"
   },
   "devDependencies": {
-    "gulp": "3.9.0",
-    "gulp-jshint": "1.11.2",
-    "gulp-jscs": "2.0.0",
-    "gulp-eslint": "1.0.0"
+    "gulp": "3.9.1",
+    "gulp-jshint": "2.0.0",
+    "gulp-jscs": "3.0.2",
+    "gulp-eslint": "2.0.0",
+    "es6-promise": "3.1.2",
+    "object.assign": "4.0.3"
   },
   "engines": {
     "node": ">=0.8"

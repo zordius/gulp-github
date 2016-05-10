@@ -76,6 +76,9 @@ Options
     git_repo: 'zordius/test',
     git_prid: '1',
 
+    // distribute comments into files, optional
+    dist_to_files: true,
+
     // create status to this commit, optional
     git_sha: 00000000,
     jshint_status: 'error',       // Set status to error when jshint errors, optional
