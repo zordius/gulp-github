@@ -23,8 +23,9 @@ gulp.task('default', function () {
         git_prid: process.env.TRAVIS_PULL_REQUEST,
         git_sha: process.env.TRAVIS_COMMIT,
 
-        jshint_status: 'error', // Set status to error when jshint errors
-        jscs_status: 'failure'  // Set status to failure when jscs errors
+        jshint_status: 'error',  // Set status to error when jshint errors
+        jscs_status: 'failure',  // Set status to failure when jscs errors
+        eslint_status: 'failure' // Set status to failure when eslint errors
     }))
     .pipe(github.failThisTask());
 });
