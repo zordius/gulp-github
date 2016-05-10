@@ -190,7 +190,7 @@ module.exports = function (options) {
         if (file.jshint && !file.jshint.success && !file.jshint.ignored) {
             file.jshint.results.forEach(function (E) {
                 if (opt.dist_to_files && isPullRequest(opt)) {
-                    promises.push(commentToPRFile('**JSHINT ERROR:**' + E.error.reason, Obejct.assign({position: Eerror.line}, opt), path.relative(process.cwd(), file.path)));
+                    promises.push(commentToPRFile('**JSHINT ERROR:**' + E.error.reason, Object.assign({position: Eerror.line}, opt), path.relative(process.cwd(), file.path)));
                 }
                 jshint_output.push(jshint_reporter(E, file));
             });
@@ -199,7 +199,7 @@ module.exports = function (options) {
         if (file.jscs && !file.jscs.success) {
             file.jscs.errors.getErrorList().forEach(function (E) {
                 if (opt.dist_to_files && isPullRequest(opt)) {
-                    promises.push(commentToPRFile('**JSCS ERROR:**' + E.message, Obejct.assign({position: E.line}, opt), path.relative(process.cwd(), file.path)));
+                    promises.push(commentToPRFile('**JSCS ERROR:**' + E.message, Object.assign({position: E.line}, opt), path.relative(process.cwd(), file.path)));
                 }
                 jscs_output.push(jscs_reporter(E, file));
             });
@@ -208,7 +208,7 @@ module.exports = function (options) {
         if (file.eslint) {
             file.eslint.messages.forEach(function (E) {
                 if (opt.dist_to_files && isPullRequest(opt)) {
-                    promises.push(commentToPRFile('**ESLINT ERROR:**' + E.message + (E.moduleId ? ' (' + E.moduleId + ')' : ''), Obejct.assign({position: E.line}, opt), path.relative(process.cwd(), file.path)));
+                    promises.push(commentToPRFile('**ESLINT ERROR:**' + E.message + (E.moduleId ? ' (' + E.moduleId + ')' : ''), Object.assign({position: E.line}, opt), path.relative(process.cwd(), file.path)));
                 }
                 eslint_output.push(eslint_simple_reporter(E, file));
             });
