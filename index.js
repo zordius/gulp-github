@@ -59,7 +59,7 @@ var commentToPR = function (body, opt, cb) {
 };
 
 var createStatusToCommit = function (state, opt, cb) {
-    getGIT(opt).statuses.create({
+    getGIT(opt).repos.createStatus({
         user: opt.git_repo.split('/')[0],
         repo: opt.git_repo.split('/')[1],
         sha: opt.git_sha,
