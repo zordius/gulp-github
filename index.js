@@ -38,6 +38,17 @@ var closePR = function (opt, cb) {
     }, cb);
 };
 
+var createPR = function (title, head, base, body, opt, cb) {
+    getGIT(opt).pullRequests.create({
+        user: opt.git_repo.split('/')[0],
+        repo: opt.git_repo.split('/')[1],
+        title: title,
+        head: head,
+        base: base,
+        body: body
+    }, cb);
+};
+
 var commentToPR = function (body, opt, cb) {
     getGIT(opt).issues.createComment({
         user: opt.git_repo.split('/')[0],
@@ -291,6 +302,7 @@ module.exports = function (options) {
 };
 
 module.exports.commentToPR = commentToPR;
+module.exports.createPR = createPR;
 module.exports.createStatusToCommit = createStatusToCommit;
 module.exports.failThisTask = failThisTask;
 module.exports.failMergedPR = failMergedPR;
