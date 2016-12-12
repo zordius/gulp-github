@@ -189,7 +189,9 @@ module.exports = function (options) {
         eslint_output = ['**Please fix these eslint issues first:**'],
         opt = options || {},
         jshint_reporter = opt.jshint_reporter || jshint_simple_reporter,
-        jscs_reporter = opt.jscs_reporter || jscs_simple_reporter;
+        jscs_reporter = opt.jscs_reporter || jscs_simple_reporter,
+        eslint_reporter = opt.eslint_reporter || eslint_simple_reporter;
+    
 
     return through.obj(function (file, enc, callback) {
         if (file.jshint && !file.jshint.success && !file.jshint.ignored) {
@@ -206,7 +208,7 @@ module.exports = function (options) {
 
         if (file.eslint) {
             file.eslint.messages.forEach(function (E) {
-                eslint_output.push(eslint_simple_reporter(E, file));
+                eslint_output.push(eslint_reporter(E, file));
             });
         }
 
