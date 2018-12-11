@@ -59,14 +59,16 @@ var commentToPR = function (body, opt, cb) {
 };
 
 var createStatusToCommit = function (state, opt, cb) {
-    getGIT(opt).repos.createStatus({
+    var statusOptions = {
         user: opt.git_repo.split('/')[0],
         repo: opt.git_repo.split('/')[1],
         sha: opt.git_sha,
         state: state.state,
         description: state.description,
         context: state.context
-    }, cb);
+    };
+    if(state.target_url){statusOptions.target_url = state.target_url;}
+    getGIT(opt).repos.createStatus(statusOptions, cb);
 };
 
 var isPullRequest = function (opt) {
