@@ -43,7 +43,7 @@ gulp.task('lint_report_github', function () {
         console.log(E.message);   // This handled jscs stream error.
     })
     .pipe(eslint())
-    .pipe(github(options));       // Comment issues in github PR!
+    .pipe(github(options))       // Comment issues in github PR!
     .pipe(github.failThisTask()); // Fail this task when jscs/jshint/eslint issues found.
 });
 
@@ -54,7 +54,8 @@ github.commentToPR('Yes! it works!!', options);
 github.createStatusToCommit({
    description: 'No! 2 failures...',
    context: 'my gulp task',
-   state: 'failure'
+   state: 'failure',
+   target_url: 'http://www.homerswebpage.com/'
 }, options);
 
 // Or, create a task to reject PR with merged commits
