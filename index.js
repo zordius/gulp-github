@@ -182,7 +182,9 @@ module.exports = function (options) {
         eslint_output = ['**Please fix these eslint issues first:**'],
         opt = options || {},
         jshint_reporter = opt.jshint_reporter || jshint_simple_reporter,
-        jscs_reporter = opt.jscs_reporter || jscs_simple_reporter;
+        jscs_reporter = opt.jscs_reporter || jscs_simple_reporter,
+        eslint_reporter = opt.eslint_reporter || eslint_simple_reporter;
+    
 
     return through.obj(function (file, enc, callback) {
         var promises = [];
@@ -307,6 +309,7 @@ module.exports = function (options) {
 };
 
 module.exports.commentToPR = commentToPR;
+module.exports.createPR = createPR;
 module.exports.createStatusToCommit = createStatusToCommit;
 module.exports.failThisTask = failThisTask;
 module.exports.failMergedPR = failMergedPR;

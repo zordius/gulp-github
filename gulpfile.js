@@ -25,7 +25,6 @@ gulp.task('default', function () {
         git_sha: process.env.TRAVIS_COMMIT,
 
         dist_to_files: true,
-
         jshint_status: 'error',  // Set status to error when jshint errors
         jscs_status: 'failure',  // Set status to failure when jscs errors
         eslint_status: 'failure' // Set status to failure when eslint errors
